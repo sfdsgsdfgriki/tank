@@ -54,7 +54,7 @@ public class PlayFile extends ElementObj{
 		case "up": this.setY(this.getY()-this.moveNum);break;
 		case "left": this.setX(this.getX()-this.moveNum);break;
 		case "right": this.setX(this.getX()+this.moveNum);break;
-		case "down": this.setY(this.getY()+this.moveNum);break;
+		case "down": this.setY(this.getY()+this.moveNum);break; 
 		}
 		
 	}
