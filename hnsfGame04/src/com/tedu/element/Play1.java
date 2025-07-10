@@ -111,16 +111,16 @@ public class Play1 extends ElementObj /* implements Comparable<Play>*/{
 	@Override
 	public void move() {
 		if (this.left && this.getX()>0) {
-			this.setX(this.getX() - 1);
+			this.setX(this.getX() - 2);
 		}
 		if (this.up  && this.getY()>0) {
-			this.setY(this.getY() - 1);
+			this.setY(this.getY() - 2);
 		}
 		if (this.right && this.getX()<900-this.getW()) {  //坐标的跳转由大家来完成
-			this.setX(this.getX() + 1);
+			this.setX(this.getX() + 2);
 		}
 		if (this.down && this.getY()<600-this.getH()) {
-			this.setY(this.getY() + 1);
+			this.setY(this.getY() + 2);
 		}
 	}
 	@Override
