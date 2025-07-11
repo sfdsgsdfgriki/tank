@@ -64,12 +64,14 @@ public class GameThread extends Thread{
 			List<ElementObj> enemys = em.getElementsByKey(GameElement.ENEMY);
 			List<ElementObj> files = em.getElementsByKey(GameElement.PLAYFILE);
 			List<ElementObj> maps = em.getElementsByKey(GameElement.MAPS);
+			List<ElementObj> plays = em.getElementsByKey(GameElement.PLAY);
 			moveAndUpdate(all,gameTime);//	游戏元素自动化方法，一直在检测
 
 			/*
 			* 检测碰撞*/
 			ElementPK(enemys,files);
 			ElementPK(files,maps);
+			ElementPK(files,plays);
 			
 			gameTime++;//唯一的时间控制
 			try {
@@ -93,7 +95,10 @@ public class GameThread extends Thread{
 //					将 setLive(false) 变为一个受攻击方法，还可以传入另外一个对象的攻击力
 //					当收攻击方法里执行时，如果血量减为0 再进行设置生存为 false
 //					扩展 留给大家
-					System.out.println(listB);
+
+
+
+					//System.out.println(listB);
 					enemy.setLive(false);
 					file.setLive(false);
 					break;
@@ -121,8 +126,13 @@ public class GameThread extends Thread{
 				if(!obj.isLive()) {//如果死亡
 //					list.remove(i--);  //可以使用这样的方式
 //					启动一个死亡方法(方法中可以做事情例如:死亡动画 ,掉装备)
-					obj.die();//需要大家自己补充
-					list.remove(i);
+
+					obj.die(gameTime);//需要大家自己补充
+
+					if(gameTime - obj.getDieTime()>=5)
+					{
+						list.remove(i); //移出去就不显示了
+					}
 					continue;
 				}
 

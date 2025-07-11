@@ -6,7 +6,7 @@ Play2.left=image/tank/play2/player2_left.png
 Play2.down=image/tank/play2/player2_down.png
 Play2.right=image/tank/play2/player2_right.png
 Play2.up=image/tank/play2/player2_up.png
-
+Boom=image/boom/boom.png
 
 
 

@@ -168,11 +168,11 @@ public class Play2 extends ElementObj{
         int x=this.getX();
         int y=this.getY();
         switch(this.fx) { // 子弹在发射时候就已经给予固定的轨迹。可以加上目标，修改json格式
-            case "up": x+=13;break;
+            case "up": x+=13;y-=11;break;
             // 一般不会写20等数值，一般情况下 图片大小就是显示大小；一般情况下可以使用图片大小参与运算
-            case "left": y+=14;break;
-            case "right": x+=23;y+=14;break;
-            case "down": x+=13;y+=30; break;
+            case "left": x-=13;y+=14;break;
+            case "right": x+=36;y+=14;break;
+            case "down": x+=13;y+=36; break;
         }//个人认为： 玩游戏有助于 理解面向对象思想;不能专门玩，需要思考，父类应该怎么抽象，子类应该怎么实现
 //		学习技术不犯法，但是不要用技术做犯法的事.
         return "x:"+x+",y:"+y+",f:"+this.fx;

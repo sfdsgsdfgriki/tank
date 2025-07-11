@@ -21,6 +21,11 @@ public abstract class ElementObj {
 	private boolean live=true; //生存状态 true 代表存在，false代表死亡
 						 // 可以采用枚举值来定义这个(生存，死亡，隐身，无敌)
 //	注明：当重新定义一个用于判定状态的变量，需要思考：1.初始化 2.值的改变 3.值的判定
+	/*
+	*  记录死亡时间
+	* */
+	private long dieTime=-1; // 初始化为-1
+
 	public ElementObj() {	//这个构造其实没有作用，只是为继承的时候不报错写的	
 	}
 	/**
@@ -39,6 +44,7 @@ public abstract class ElementObj {
 		this.h = h;
 		this.icon = icon;
 	}
+
 	/**
 	 * @说明 抽象方法，显示元素
 	 * @param g  画笔 用于进行绘画
@@ -78,10 +84,17 @@ public abstract class ElementObj {
 //	 long ... aaa  不定长的 数组,可以向这个方法传输 N个 long类型的数据
 	protected void updateImage() {}
 	protected void add(long gameTime){}
-	
-//	死亡方法  给子类继承的
-	public void die() {  //死亡也是一个对象
-		
+
+
+
+	//	死亡方法  给子类继承的
+	public void die(long gameTime) {  //死亡也是一个对象
+
+		if(this.isLive()==false&& this.getDieTime()==-1)
+		{
+			this.setDieTime(gameTime);
+		}
+
 	}
 	
 	
@@ -154,6 +167,13 @@ public abstract class ElementObj {
 	}
 	public void setLive(boolean live) {
 		this.live = live;
+	}
+	public long getDieTime() {
+		return dieTime;
+	}
+
+	public void setDieTime(long dieTime) {
+		this.dieTime = dieTime;
 	}
 
 	
