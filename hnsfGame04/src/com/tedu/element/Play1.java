@@ -1,6 +1,7 @@
 package com.tedu.element;
 
 import java.awt.Graphics;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -52,6 +53,9 @@ public class Play1 extends ElementObj /* implements Comparable<Play>*/{
 
 		this.setH(icon2.getIconHeight());
 		this.setIcon(icon2);
+		this.setHp(3);//血量初始为3
+		this.setAttack(1);//攻击力初始为1
+
 		return this;
 	}
 	
@@ -163,11 +167,15 @@ public class Play1 extends ElementObj /* implements Comparable<Play>*/{
 	}
 
 	@Override
-	public void die(long gameTime) {
+	public void die(List<ElementObj> list, int i, long gameTime) {
 
-		super.die(gameTime);
+		super.die(list, i, gameTime);
 
 		this.setIcon(GameLoad.imgMap.get("Boom"));
+		if(gameTime - this.getDieTime()>=5)
+		{
+			list.remove(i); //移出去就不显示了
+		}
 
 	}
 
@@ -175,6 +183,7 @@ public class Play1 extends ElementObj /* implements Comparable<Play>*/{
 	public String toString() {// 这里是偷懒，直接使用toString；建议自己定义一个方法
 		// 这是子弹生成的位置，返回一个字符串给子弹创建方法
 		//  {X:3,y:5,f:up,t:A} json格式
+		//这里给子弹赋值坦克的攻击力
 		int x=this.getX();
 		int y=this.getY();
 		switch(this.fx) { // 子弹在发射时候就已经给予固定的轨迹。可以加上目标，修改json格式
@@ -185,7 +194,7 @@ public class Play1 extends ElementObj /* implements Comparable<Play>*/{
 		case "down": x+=13;y+=36; break;
 		}//个人认为： 玩游戏有助于 理解面向对象思想;不能专门玩，需要思考，父类应该怎么抽象，子类应该怎么实现
 //		学习技术不犯法，但是不要用技术做犯法的事.
-		return "x:"+x+",y:"+y+",f:"+this.fx;
+		return "x:"+x+",y:"+y+",f:"+this.fx+",attack:"+this.getAttack();
 	}
 	
 	

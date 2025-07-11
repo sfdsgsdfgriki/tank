@@ -2,6 +2,7 @@ package com.tedu.element;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +18,20 @@ public abstract class ElementObj {
 	private int w;
 	private int h;
 	private ImageIcon icon;
-//	还有。。。。 各种必要的状态值，例如：是否生存.
+
+	private int hp;
+
+	private int attack;
+
+	public int getAttack() {
+		return attack;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	//	还有。。。。 各种必要的状态值，例如：是否生存.
 	private boolean live=true; //生存状态 true 代表存在，false代表死亡
 						 // 可以采用枚举值来定义这个(生存，死亡，隐身，无敌)
 //	注明：当重新定义一个用于判定状态的变量，需要思考：1.初始化 2.值的改变 3.值的判定
@@ -88,15 +102,19 @@ public abstract class ElementObj {
 
 
 	//	死亡方法  给子类继承的
-	public void die(long gameTime) {  //死亡也是一个对象
+	public void die(List<ElementObj> list,int i, long gameTime) {
+		//直接在该方法进行死亡对象在元素管理器的移除，
+		//死亡也是一个对象
 
 		if(this.isLive()==false&& this.getDieTime()==-1)
 		{
 			this.setDieTime(gameTime);
 		}
 
+
 	}
-	
+
+
 	
 	public  ElementObj createElement(String str) {
 		
@@ -117,8 +135,12 @@ public abstract class ElementObj {
 	 * @param obj
 	 * @return boolean 返回true 说明有碰撞，返回false说明没有碰撞
 	 */
-	public boolean pk(ElementObj obj) {	
+	public boolean pk(ElementObj obj)
+	{
+
+
 		return this.getRectangle().intersects(obj.getRectangle());
+
 	}
 	////intersects（Rectangle）  确定次矩形是否与指定矩形相交，相交则发生碰撞
 	
@@ -176,10 +198,17 @@ public abstract class ElementObj {
 		this.dieTime = dieTime;
 	}
 
-	
-	
-	
-	
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
+
+
+
 }
 
 

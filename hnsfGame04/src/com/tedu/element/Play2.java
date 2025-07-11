@@ -6,6 +6,7 @@ import com.tedu.manager.GameLoad;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class Play2 extends ElementObj{
 
@@ -52,9 +53,24 @@ public class Play2 extends ElementObj{
 
         this.setH(icon2.getIconHeight());
         this.setIcon(icon2);
+        this.setHp(3);
+        this.setAttack(1);//攻击力初始为1
         return this;
     }
 
+
+    @Override
+    public void die(List<ElementObj> list, int i, long gameTime) {
+
+        super.die(list, i, gameTime);
+
+        this.setIcon(GameLoad.imgMap.get("Boom"));
+        if(gameTime - this.getDieTime()>=5)
+        {
+            list.remove(i); //移出去就不显示了
+        }
+
+    }
 
     /**
      * 面向对象中第1个思想： 对象自己的事情自己做
@@ -175,7 +191,7 @@ public class Play2 extends ElementObj{
             case "down": x+=13;y+=36; break;
         }//个人认为： 玩游戏有助于 理解面向对象思想;不能专门玩，需要思考，父类应该怎么抽象，子类应该怎么实现
 //		学习技术不犯法，但是不要用技术做犯法的事.
-        return "x:"+x+",y:"+y+",f:"+this.fx;
+        return "x:"+x+",y:"+y+",f:"+this.fx+",attack:"+this.getAttack();
     }
 
 }

@@ -70,8 +70,8 @@ public class GameThread extends Thread{
 			/*
 			* 检测碰撞*/
 			ElementPK(enemys,files);
-			ElementPK(files,maps);
-			ElementPK(files,plays);
+			ElementPK(maps,files);
+			ElementPK(plays,files);
 			
 			gameTime++;//唯一的时间控制
 			try {
@@ -90,16 +90,24 @@ public class GameThread extends Thread{
 			ElementObj enemy=listA.get(i);
 			for(int j=0;j<listB.size();j++) {
 				ElementObj file=listB.get(j);
+
+				//if (file.isLive()==false) break;
+
 				if(enemy.pk(file)) {
 //					问题： 如果是boos，那么也一枪一个吗？？？？
 //					将 setLive(false) 变为一个受攻击方法，还可以传入另外一个对象的攻击力
 //					当收攻击方法里执行时，如果血量减为0 再进行设置生存为 false
 //					扩展 留给大家
-
+					enemy.setHp(enemy.getHp()-file.getAttack());
 
 
 					//System.out.println(listB);
-					enemy.setLive(false);
+
+					System.out.println(enemy.getHp());
+					if(enemy.getHp()<=0)
+					{
+						enemy.setLive(false);
+					}
 					file.setLive(false);
 					break;
 				}
@@ -119,6 +127,7 @@ public class GameThread extends Thread{
 //			for(int i=0;i<list.size();i++) {
 			for(int i=list.size()-1;i>=0;i--){	
 				ElementObj obj=list.get(i);//读取为基类
+
 				//父类引用指向子类对象时，该引用只能调用父类中定义的方法，
 				// 无法直接调用子类特有的方法。但如果子类重写了父类的方法，则会执行子类的实现（多态）
 
@@ -127,12 +136,9 @@ public class GameThread extends Thread{
 //					list.remove(i--);  //可以使用这样的方式
 //					启动一个死亡方法(方法中可以做事情例如:死亡动画 ,掉装备)
 
-					obj.die(gameTime);//需要大家自己补充
+					obj.die(list,i,gameTime);//需要大家自己补充
 
-					if(gameTime - obj.getDieTime()>=5)
-					{
-						list.remove(i); //移出去就不显示了
-					}
+
 					continue;
 				}
 

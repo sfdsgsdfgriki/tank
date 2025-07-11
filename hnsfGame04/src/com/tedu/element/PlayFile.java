@@ -2,6 +2,7 @@ package com.tedu.element;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +18,7 @@ import com.tedu.manager.GameElement;
  *   3.思考并定义子类特有的属性
  */
 public class PlayFile extends ElementObj{
-	private int attack;//攻击力
+	//private int attack;//攻击力
 	private int moveNum=3;//移动速度值
 	private String fx;
 //	剩下的大家扩展; 可以扩展出多种子弹： 激光，导弹等等。(玩家类就需要有子弹类型)
@@ -32,12 +33,19 @@ public class PlayFile extends ElementObj{
 			case "x": this.setX(Integer.parseInt(split2[1]));break;
 			case "y":this.setY(Integer.parseInt(split2[1]));break;
 			case "f":this.fx=split2[1];break;
+			case "attack": this.setAttack(Integer.parseInt(split2[1])); break; //将坦克攻击力赋给子弹
 			}
 		}
 		this.setW(10);
 		this.setH(10);
 		return this;
 	}
+
+	@Override
+	public void die(List<ElementObj> list, int i, long gameTime) {
+		list.remove(i);
+	}
+
 	@Override
 	public void showElement(Graphics g) {	
 		g.setColor(Color.red);// new Color(255,255,255)
@@ -50,6 +58,7 @@ public class PlayFile extends ElementObj{
 			this.setLive(false);
 			return;
 		}
+
 		switch(this.fx) {
 		case "up": this.setY(this.getY()-this.moveNum);break;
 		case "left": this.setX(this.getX()-this.moveNum);break;
