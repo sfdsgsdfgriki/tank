@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class Play2 extends ElementObj{
+public class Play2 extends Tank{
 
 
     /**
@@ -34,7 +34,7 @@ public class Play2 extends ElementObj{
 
 
     //	变量专门用来记录当前主角面向的方向,默认为是up
-    private String fx="up";
+
 
     private boolean pkType=false;//攻击状态 true 攻击  false停止
 
@@ -49,12 +49,14 @@ public class Play2 extends ElementObj{
         this.setX(Integer.parseInt(split[0]));
         this.setY(Integer.parseInt(split[1]));
         ImageIcon icon2 = GameLoad.imgMap.get(Play2.class.getSimpleName()+"."+split[2]);
+        this.setFx(split[2]);
         this.setW(icon2.getIconWidth());
 
         this.setH(icon2.getIconHeight());
         this.setIcon(icon2);
         this.setHp(3);
         this.setAttack(1);//攻击力初始为1
+        this.setMoveNum(2);
         return this;
     }
 
@@ -93,16 +95,16 @@ public class Play2 extends ElementObj{
             switch(key) {  //怎么优化 大家中午思考;加 监听会持续触发；有没办法触发一次
                 case 65:
                     this.down=false;this.up=false;
-                    this.right=false;this.left=true; this.fx="left"; break;
+                    this.right=false;this.left=true; this.setFx("left"); break;
                 case 87:
                     this.right=false;this.left=false;
-                    this.down=false; this.up=true;   this.fx="up"; break;
+                    this.down=false; this.up=true;   this.setFx("up"); break;
                 case 68:
                     this.down=false;this.up=false;
-                    this.left=false; this.right=true; this.fx="right";break;
+                    this.left=false; this.right=true; this.setFx("right");;break;
                 case 83:
                     this.right=false;this.left=false;
-                    this.up=false; this.down=true;  this.fx="down";break;
+                    this.up=false; this.down=true;  this.setFx("down");break;
                 case 85://u
                     this.pkType=true;break;//开启攻击状态
             }
@@ -127,16 +129,16 @@ public class Play2 extends ElementObj{
     @Override
     public void move() {
         if (this.left && this.getX()>0) {
-            this.setX(this.getX() - 2);
+            this.setX(this.getX() - this.getMoveNum());
         }
         if (this.up  && this.getY()>0) {
-            this.setY(this.getY() - 2);
+            this.setY(this.getY() - this.getMoveNum());
         }
-        if (this.right && this.getX()<900-this.getW()) {  //坐标的跳转由大家来完成
-            this.setX(this.getX() + 2);
+        if (this.right && this.getX()<800-this.getW()-14) {  //坐标的跳转由大家来完成
+            this.setX(this.getX() + this.getMoveNum());
         }
-        if (this.down && this.getY()<600-this.getH()) {
-            this.setY(this.getY() + 2);
+        if (this.down && this.getY()<600-this.getH()-35) {
+            this.setY(this.getY() + this.getMoveNum());
         }
     }
     @Override
@@ -144,7 +146,7 @@ public class Play2 extends ElementObj{
 //		ImageIcon icon=GameLoad.imgMap.get(fx);
 //		System.out.println(icon.getIconHeight());//得到图片的高度
 //		如果高度是小于等于0 就说明你的这个图片路径有问题
-        this.setIcon(GameLoad.imgMap.get(Play2.class.getSimpleName()+"."+fx));
+        this.setIcon(GameLoad.imgMap.get(Play2.class.getSimpleName()+"."+this.getFx()));
     }
     /**
      * @额外问题：1.请问重写的方法的访问修饰符是否可以修改？
@@ -183,7 +185,7 @@ public class Play2 extends ElementObj{
         //  {X:3,y:5,f:up,t:A} json格式
         int x=this.getX();
         int y=this.getY();
-        switch(this.fx) { // 子弹在发射时候就已经给予固定的轨迹。可以加上目标，修改json格式
+        switch(this.getFx()) { // 子弹在发射时候就已经给予固定的轨迹。可以加上目标，修改json格式
             case "up": x+=13;y-=11;break;
             // 一般不会写20等数值，一般情况下 图片大小就是显示大小；一般情况下可以使用图片大小参与运算
             case "left": x-=13;y+=14;break;
@@ -191,7 +193,7 @@ public class Play2 extends ElementObj{
             case "down": x+=13;y+=36; break;
         }//个人认为： 玩游戏有助于 理解面向对象思想;不能专门玩，需要思考，父类应该怎么抽象，子类应该怎么实现
 //		学习技术不犯法，但是不要用技术做犯法的事.
-        return "x:"+x+",y:"+y+",f:"+this.fx+",attack:"+this.getAttack();
+        return "x:"+x+",y:"+y+",f:"+this.getFx()+",attack:"+this.getAttack();
     }
 
 }

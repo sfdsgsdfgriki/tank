@@ -9,7 +9,9 @@ public class MapObj extends ElementObj{
 //	墙需要血量	
 
 	private String name;//墙的type  也可以使用枚举
-	
+
+
+
 	@Override
 	public void showElement(Graphics g) {
 		g.drawImage(this.getIcon().getImage(),
@@ -31,10 +33,10 @@ public class MapObj extends ElementObj{
 //		先写一个假图片再说
 		ImageIcon icon=null;
 		switch(arr[0]) { //设置图片信息 图片还未加载到内存中 //对应墙的种类加载对应图片gitg
-		case "GRASS": icon=new ImageIcon("image/wall/grass.png");this.setHp(1);break;
-		case "BRICK": icon=new ImageIcon("image/wall/brick.png");this.setHp(1);break;
-		case "RIVER": icon=new ImageIcon("image/wall/river.png");this.setHp(0);break;
-		case "IRON": icon=new ImageIcon("image/wall/iron.png");this.setHp(4);name="IRON";break;
+		case "GRASS": icon=new ImageIcon("image/wall/grass.png");this.setHp(1);this.setName(arr[0]);break;
+		case "BRICK": icon=new ImageIcon("image/wall/brick.png");this.setHp(1);this.setName(arr[0]);break;
+		case "RIVER": icon=new ImageIcon("image/wall/river.png");this.setHp(0);this.setName(arr[0]);break;
+		case "IRON": icon=new ImageIcon("image/wall/iron.png");this.setHp(10000);this.setName(arr[0]);break;
 
 
 
@@ -66,7 +68,13 @@ public class MapObj extends ElementObj{
 //			}
 			super.setLive(live);
 		}
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 }
 

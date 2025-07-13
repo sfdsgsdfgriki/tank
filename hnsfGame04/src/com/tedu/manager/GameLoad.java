@@ -10,10 +10,7 @@ import java.util.Set;
 
 import javax.swing.ImageIcon;
 
-import com.tedu.element.ElementObj;
-import com.tedu.element.MapObj;
-import com.tedu.element.Play1;
-import com.tedu.element.Play2;
+import com.tedu.element.*;
 
 /**
  * @说明  加载器(工具：用户读取配置文件的工具)工具类,大多提供的是 static方法
@@ -26,6 +23,8 @@ public class GameLoad {
 	
 //	图片集合  使用map来进行存储     枚举类型配合移动(扩展)
 	public static Map<String,ImageIcon> imgMap = new HashMap<>();
+
+
 
 	//public static Map<String,List<ImageIcon>> imgMaps;
 
@@ -140,7 +139,7 @@ public class GameLoad {
 				String url=pro.getProperty(o.toString());
 
 
-				imgMap.put(o.toString(), new ImageIcon(url));//加载对应路径的图片
+				imgMap.put(o.toString(), new ImageIcon(url));//加载对应路径的图片 在这里加载了
 
 			}
 			
@@ -155,17 +154,27 @@ public class GameLoad {
 	public static void loadPlay() {
 		loadObj();
 		String play1Str="500,500,up";
-		String plat2Str ="50,400,left";
+		String play2Str ="50,300,left";
 //		ElementObj obj=getObj("play");
 //		ElementObj play = obj.createElement(playStr);
 
 		ElementObj play1 = new Play1().createElement(play1Str);
-		ElementObj play2 = new Play2().createElement(plat2Str);
+		em.addElement(play1, GameElement.PLAY);
+		ElementObj play2 = new Play2().createElement(play2Str);
 
 //		解耦,降低代码和代码之间的耦合度 可以直接通过 接口或者是抽象父类就可以获取到实体对象
-		em.addElement(play1, GameElement.PLAY);
+
 		em.addElement(play2, GameElement.PLAY);
+
+		ElementObj enemy1 = new Enemy().createElement("");
+		em.addElement(enemy1,GameElement.ENEMY);
+
+
 	}
+
+
+
+
 	
 	public static ElementObj getObj(String str) {
 		try {

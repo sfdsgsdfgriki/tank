@@ -19,7 +19,7 @@ import com.tedu.manager.GameElement;
  */
 public class PlayFile extends ElementObj{
 	//private int attack;//攻击力
-	private int moveNum=3;//移动速度值
+	//移动速度值
 	private String fx;
 //	剩下的大家扩展; 可以扩展出多种子弹： 激光，导弹等等。(玩家类就需要有子弹类型)
 	public PlayFile() {}//一个空的构造方法
@@ -38,6 +38,7 @@ public class PlayFile extends ElementObj{
 		}
 		this.setW(10);
 		this.setH(10);
+		this.setMoveNum(5);
 		return this;
 	}
 
@@ -60,10 +61,10 @@ public class PlayFile extends ElementObj{
 		}
 
 		switch(this.fx) {
-		case "up": this.setY(this.getY()-this.moveNum);break;
-		case "left": this.setX(this.getX()-this.moveNum);break;
-		case "right": this.setX(this.getX()+this.moveNum);break;
-		case "down": this.setY(this.getY()+this.moveNum);break;
+		case "up": this.setY(this.getY()-this.getMoveNum());break;
+		case "left": this.setX(this.getX()-this.getMoveNum());break;
+		case "right": this.setX(this.getX()+this.getMoveNum());break;
+		case "down": this.setY(this.getY()+this.getMoveNum());break;
 		}
 		
 	}

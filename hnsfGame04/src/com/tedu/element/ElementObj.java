@@ -20,16 +20,13 @@ public abstract class ElementObj {
 	private ImageIcon icon;
 
 	private int hp;
+	private int moveNum;
+
+
 
 	private int attack;
 
-	public int getAttack() {
-		return attack;
-	}
 
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
 
 	//	还有。。。。 各种必要的状态值，例如：是否生存.
 	private boolean live=true; //生存状态 true 代表存在，false代表死亡
@@ -40,7 +37,13 @@ public abstract class ElementObj {
 	* */
 	private long dieTime=-1; // 初始化为-1
 
-	public ElementObj() {	//这个构造其实没有作用，只是为继承的时候不报错写的	
+	private long pickTime=-1; // 道具被拾取的时间
+
+	private long appearTime=-1; //出现时间
+
+
+
+	public ElementObj() {	//这个构造其实没有作用，只是为继承的时候不报错写的
 	}
 	/**
 	 * @说明 带参数的构造方法; 可以由子类传输数据到父类
@@ -99,6 +102,10 @@ public abstract class ElementObj {
 	protected void updateImage() {}
 	protected void add(long gameTime){}
 
+
+	public void effect(ElementObj obj){
+
+	} //道具效果的方法
 
 
 	//	死亡方法  给子类继承的
@@ -206,8 +213,37 @@ public abstract class ElementObj {
 		this.hp = hp;
 	}
 
+	public int getAttack() {
+		return attack;
+	}
 
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
 
+	public long getPickTime() {
+		return pickTime;
+	}
+
+	public void setPickTime(long pickTime) {
+		this.pickTime = pickTime;
+	}
+
+	public long getAppearTime() {
+		return appearTime;
+	}
+
+	public void setAppearTime(long appearTime) {
+		this.appearTime = appearTime;
+	}
+
+	public int getMoveNum() {
+		return moveNum;
+	}
+
+	public void setMoveNum(int moveNum) {
+		this.moveNum = moveNum;
+	}
 
 }
 

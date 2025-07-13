@@ -3,7 +3,7 @@ package com.tedu.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.tedu.element.ElementObj;
+import com.tedu.element.*;
 import com.tedu.manager.ElementManager;
 import com.tedu.manager.GameElement;
 import com.tedu.manager.GameLoad;
@@ -65,6 +65,7 @@ public class GameThread extends Thread{
 			List<ElementObj> files = em.getElementsByKey(GameElement.PLAYFILE);
 			List<ElementObj> maps = em.getElementsByKey(GameElement.MAPS);
 			List<ElementObj> plays = em.getElementsByKey(GameElement.PLAY);
+			List<ElementObj> tools = em.getElementsByKey(GameElement.TOOL);
 			moveAndUpdate(all,gameTime);//	游戏元素自动化方法，一直在检测
 
 			/*
@@ -72,7 +73,9 @@ public class GameThread extends Thread{
 			ElementPK(enemys,files);
 			ElementPK(maps,files);
 			ElementPK(plays,files);
-			
+			ElementPK(plays,tools);
+			ElementPK(plays,maps);
+
 			gameTime++;//唯一的时间控制
 			try {
 				sleep(10);//默认理解为 1秒刷新100次 
@@ -93,29 +96,121 @@ public class GameThread extends Thread{
 
 				//if (file.isLive()==false) break;
 
-				if(enemy.pk(file)) {
+				if(enemy.pk(file) && file instanceof PlayFile) {//子弹与实体的碰撞
 //					问题： 如果是boos，那么也一枪一个吗？？？？
 //					将 setLive(false) 变为一个受攻击方法，还可以传入另外一个对象的攻击力
 //					当收攻击方法里执行时，如果血量减为0 再进行设置生存为 false
 //					扩展 留给大家
-					enemy.setHp(enemy.getHp()-file.getAttack());
-
 
 					//System.out.println(listB);
-
 					System.out.println(enemy.getHp());
-					if(enemy.getHp()<=0)
-					{
-						enemy.setLive(false);
+					//Class<?> isClass = enemy.getClass();
+					if (enemy instanceof Tank) {
+						//子弹和坦克碰撞
+						enemy.setHp(enemy.getHp()-file.getAttack());
+						if (enemy.getHp() <= 0) {
+
+							enemy.setLive(false);
+						}
+						file.setLive(false);
+						break;
 					}
-					file.setLive(false);
-					break;
+
+					if (enemy instanceof MapObj)//子弹和地图碰撞
+
+					{
+						String name = ((MapObj) enemy).getName();
+						if(name.equals("RIVER")) break; //河流子弹可以直接穿
+
+						enemy.setHp(enemy.getHp()-file.getAttack());
+						if (enemy.getHp() <= 0) { //钢铁不能打烂，另外两种可以打烂
+
+							enemy.setLive(false);
+						}
+						file.setLive(false);
+						break;
+
+					}
+
+
 				}
+
+
+				if(enemy.pk(file)&& file instanceof Boat) //坦克与鞋子道具碰撞
+				{
+					file.effect(enemy);
+					file.setLive(false);
+
+				}
+				if (enemy.pk(file)&&file instanceof Recover)//坦克与回血道具碰撞
+				{
+					file.effect(enemy);
+					file.setLive(false);
+				}
+
+				if(enemy.pk(file) && file instanceof MapObj)//坦克与地图的碰撞
+				{
+					System.out.println(file.getClass());
+					System.out.println(enemy.getClass());
+
+
+
+					tankPoundMap(enemy,file);
+
+
+
+
+				}
+
+
+
+
+
+
 			}
 		}
 	}
 	
-	
+	public void tankPoundMap(ElementObj obj,ElementObj mapobj)
+	{
+		if (mapobj instanceof MapObj && obj instanceof Tank) {
+			String mapname = ((MapObj) mapobj).getName();
+			String fx = ((Tank) obj).getFx();
+
+			if (  mapname.equals("BRICK") || mapname.equals("IRON") ) {
+
+				switch (fx) {
+					case "up":
+						obj.setY(obj.getY() + obj.getMoveNum());
+						break;
+					case "left":
+						obj.setX(obj.getX() + obj.getMoveNum());
+						break;
+					case "right":
+						obj.setX(obj.getX() - obj.getMoveNum());
+						break;
+					case "down":
+						obj.setY(obj.getY() - obj.getMoveNum());
+						break;
+
+				}
+
+			}
+			if (mapname.equals("RIVER"))
+			{
+				obj.setLive(false);
+			}
+
+			if(mapname.equals("GRASS"))
+			{
+				mapobj.setLive(false);
+			}
+
+		}
+
+
+
+	}
 	
 	
 //	游戏元素自动化方法
