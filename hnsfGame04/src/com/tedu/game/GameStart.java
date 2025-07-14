@@ -4,6 +4,7 @@ import com.tedu.controller.GameListener;
 import com.tedu.controller.GameThread;
 import com.tedu.show.GameJFrame;
 import com.tedu.show.GameMainJPanel;
+import com.tedu.show.StartJFrame;
 
 public class GameStart {
 	/**
