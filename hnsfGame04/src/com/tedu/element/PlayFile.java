@@ -53,7 +53,7 @@ public class PlayFile extends ElementObj{
 		g.fillOval(this.getX(), this.getY(), this.getW(), this.getH());
 	}	
 	@Override
-	protected void move() {// 子弹移动不用按键检测，是自动的，子弹一旦创建了，move方法在主线程就一直自动执行，所以子弹能一直动
+	protected void move(long gameTime) {// 子弹移动不用按键检测，是自动的，子弹一旦创建了，move方法在主线程就一直自动执行，所以子弹能一直动
 		if(this.getX()<0 || this.getX() >900 || 
 				this.getY() <0 || this.getY()>600) {
 			this.setLive(false);

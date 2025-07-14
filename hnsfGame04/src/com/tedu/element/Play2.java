@@ -36,7 +36,7 @@ public class Play2 extends Tank{
     //	变量专门用来记录当前主角面向的方向,默认为是up
 
 
-    private boolean pkType=false;//攻击状态 true 攻击  false停止
+    //private boolean pkType=false;//攻击状态 true 攻击  false停止
 
     public Play2() {}
     public Play2(int x, int y, int w, int h, ImageIcon icon) {
@@ -48,7 +48,7 @@ public class Play2 extends Tank{
         String[] split = str.split(",");
         this.setX(Integer.parseInt(split[0]));
         this.setY(Integer.parseInt(split[1]));
-        ImageIcon icon2 = GameLoad.imgMap.get(Play2.class.getSimpleName()+"."+split[2]);
+        ImageIcon icon2 = GameLoad.imgMap.get(this.getClass().getSimpleName()+"."+split[2]);
         this.setFx(split[2]);
         this.setW(icon2.getIconWidth());
 
@@ -106,7 +106,7 @@ public class Play2 extends Tank{
                     this.right=false;this.left=false;
                     this.up=false; this.down=true;  this.setFx("down");break;
                 case 85://u
-                    this.pkType=true;break;//开启攻击状态
+                    this.setisFire(true);break;//开启攻击状态
             }
         }else {
             switch(key) {
@@ -114,7 +114,7 @@ public class Play2 extends Tank{
                 case 87: this.up=false;    break;
                 case 68: this.right=false; break;
                 case 83: this.down=false;  break;
-                case 85: this.pkType=false; break;//关闭攻击状态
+                case 85: this.setisFire(false); break;//关闭攻击状态
             }
             //a a
         }
@@ -127,7 +127,7 @@ public class Play2 extends Tank{
 //		return 0;
 //	}
     @Override
-    public void move() {
+    public void move(long gameTime) {
         if (this.left && this.getX()>0) {
             this.setX(this.getX() - this.getMoveNum());
         }
@@ -164,10 +164,10 @@ public class Play2 extends Tank{
 //	这个控制代码 自己写
     @Override   //添加子弹
     public void add(long gameTime) {//有啦时间就可以进行控制
-        if(!this.pkType) {//如果是不发射状态 就直接return
+        if(!this.getisFire()) {//如果是不发射状态 就直接return
             return;
         }
-        this.pkType=false;//按一次，发射一个子弹。拼手速(也可以增加变量来控制)
+        this.setisFire(false);//按一次，发射一个子弹。拼手速(也可以增加变量来控制)
 //		new PlayFile(); // 构造一个类 需要做比较多的工作  可以选择一种方式，使用小工厂
 //		将构造对象的多个步骤进行封装成为一个方法，返回值直接是这个对象
 //		传递一个固定格式   {X:3,y:5,f:up} json格式

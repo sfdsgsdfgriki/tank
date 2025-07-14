@@ -2,11 +2,7 @@ package com.tedu.manager;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import javax.swing.ImageIcon;
 
@@ -24,7 +20,7 @@ public class GameLoad {
 //	图片集合  使用map来进行存储     枚举类型配合移动(扩展)
 	public static Map<String,ImageIcon> imgMap = new HashMap<>();
 
-
+	public static List<String> mapPoint = new ArrayList<>();
 
 	//public static Map<String,List<ImageIcon>> imgMaps;
 
@@ -74,42 +70,20 @@ public class GameLoad {
 				String key = o.toString();
 				String [] arrs=pro.getProperty(key).split(";");
 				//拿到一种墙壁的所有坐标，然后对每个坐标分割，分割完变成一个字符串数组，每一个单元是x，y的字符串
-				//先拿到值，   再对值分割 该键对应值的数组，多个坐标，用;分割
+				//先拿到值，   再对值分割 该键对应值的数组，多个坐标，用;分割 arrs[i]是x,y的形式
+
 				for(int i=0;i<arrs.length;i++) {//一个数组元素是一个X，y的形式，这里再对每个坐标拆分，然后创建对应坐标的每块墙
 					ElementObj element = new MapObj().createElement(key+","+arrs[i]);
 					//创造地图的一块
 					System.out.println(element);
 					em.addElement(element, GameElement.MAPS);
+					//mapPoint.add(arrs[i]);
+
 				}
 
 			}
 
-			/*
-			*
-			* 这行代码的作用是获取 Properties 对象中的所有键名（属性名），
-			* 返回的是一个枚举类型（Enumeration）的集合，可用于遍历 Properties 中的所有配置项*/
 
-			//.hasMoreElements(） 用于判断枚举对象中是否还有下一个元素。它是早期迭代集合的方式
-//			while(names.hasMoreElements() /*判断是否还有下一个元素*/) {//获取是无序的
-////				这样的迭代都有一个问题：一次迭代一个元素。
-//				String key=names.nextElement().toString(); //获取当前元素并转为String
-//				//键是名称，值是坐标 这里坐标是所有的坐标，用;隔开
-//
-//				//，在 Java 中，未指定泛型的 Enumeration 返回的元素类型是 Object（所有类的基类）。
-//				// 因此，names.nextElement() 的返回值类型是 Object，需要显式转换为 String
-//				System.out.println(pro.getProperty(key));
-//
-//				//从 Properties 对象中获取指定键的值，返回的是key对应的value，返回类型为 String
-//				//这里得到墙体的种类名称
-////				就可以自动的创建和加载 我们的地图啦
-//				String [] arrs=pro.getProperty(key).split(";");//值的数组，多个坐标，用;分割
-//				for(int i=0;i<arrs.length;i++) {//一个数组元素是一个X，y的形式
-//					ElementObj element = new MapObj().createElement(key+","+arrs[i]);
-//					//创造地图的一块
-//					System.out.println(element);
-//					em.addElement(element, GameElement.MAPS);
-//				}
-//			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,11 +122,13 @@ public class GameLoad {
 			e.printStackTrace();
 		}
 	}
+
+
 	/**
 	 * 加载玩家
 	 */
 	public static void loadPlay() {
-		loadObj();
+		//loadObj();
 		String play1Str="500,500,up";
 		String play2Str ="50,300,left";
 //		ElementObj obj=getObj("play");
@@ -166,13 +142,65 @@ public class GameLoad {
 
 		em.addElement(play2, GameElement.PLAY);
 
-		ElementObj enemy1 = new Enemy().createElement("");
-		em.addElement(enemy1,GameElement.ENEMY);
+//		ElementObj enemy1 = new Enemy().createElement("");
+//
 
 
 	}
 
+	public static void loadEnemy()
+	{
+		List<ElementObj> maplist = em.getElementsByKey(GameElement.MAPS);
+		List<ElementObj> playList = em.getElementsByKey(GameElement.PLAY);
+		Random ran=new Random();
+		int enemyNum = 3;
+		System.out.println(maplist);
+		System.out.println(playList);
 
+		while (enemyNum>0) {
+
+			int x = ran.nextInt(700);
+			int y = ran.nextInt(500);
+//
+
+			ElementObj enemy = new Enemy(x, y);
+
+			boolean flag =true; //是真的说明没有与墙壁相交 每个对象都设一个flag
+
+			for (ElementObj mapobj : maplist) {
+
+
+				if(flag==false) break; //有一个相交都要重新来过
+
+				for (ElementObj playobj : playList) {
+
+//					System.out.println(enemy.getRectangle());
+//					System.out.println(mapobj.getRectangle());
+
+					if (enemy.pk(mapobj) || enemy.pk(playobj))
+					{
+						flag = false;
+						break;
+					}
+
+				}
+
+			}
+
+			if(flag==true)
+			{
+				enemyNum--;
+				System.out.println(enemyNum);
+				em.addElement(enemy,GameElement.ENEMY);
+			}
+
+
+
+
+
+		}
+
+	}
 
 
 	

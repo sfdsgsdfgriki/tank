@@ -42,9 +42,11 @@ public class GameThread extends Thread{
 	 */
 	private void gameLoad() {
 		GameLoad.loadImg(); //加载图片
-		GameLoad.MapLoad(5);//可以变为 变量，每一关重新加载  加载地图
+		GameLoad.MapLoad(4);//可以变为 变量，每一关重新加载  加载地图
 //		加载主角
 		GameLoad.loadPlay();//也可以带参数，单机还是2人
+
+		GameLoad.loadEnemy();
 //		加载敌人NPC等
 		
 //		全部加载完成，游戏启动
@@ -75,6 +77,7 @@ public class GameThread extends Thread{
 			ElementPK(plays,files);
 			ElementPK(plays,tools);
 			ElementPK(plays,maps);
+			ElementPK(enemys,maps);
 
 			gameTime++;//唯一的时间控制
 			try {
@@ -103,7 +106,7 @@ public class GameThread extends Thread{
 //					扩展 留给大家
 
 					//System.out.println(listB);
-					System.out.println(enemy.getHp());
+					//System.out.println(enemy.getHp());
 					//Class<?> isClass = enemy.getClass();
 					if (enemy instanceof Tank) {
 						//子弹和坦克碰撞
@@ -150,8 +153,8 @@ public class GameThread extends Thread{
 
 				if(enemy.pk(file) && file instanceof MapObj)//坦克与地图的碰撞
 				{
-					System.out.println(file.getClass());
-					System.out.println(enemy.getClass());
+//					System.out.println(file.getClass());
+//					System.out.println(enemy.getClass());
 
 
 

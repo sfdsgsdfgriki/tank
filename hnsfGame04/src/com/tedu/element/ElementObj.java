@@ -39,7 +39,7 @@ public abstract class ElementObj {
 
 	private long pickTime=-1; // 道具被拾取的时间
 
-	private long appearTime=-1; //出现时间
+	private long lastTime=0; //出现时间
 
 
 
@@ -84,7 +84,7 @@ public abstract class ElementObj {
 	/**
 	 * @说明 移动方法; 需要移动的子类，请 重写这个方法
 	 */
-	protected void move() {	
+	protected void move(long gameTime) {
 	}
 	/**
 	 * @设计模式 模板模式;在模板模式中定义 对象执行方法的先后顺序,由子类选择性重写方法
@@ -94,7 +94,7 @@ public abstract class ElementObj {
 //		先换装
 		updateImage();
 //		在移动
-		move();
+		move(gameTime);
 //		在发射子弹
 		add(gameTime);
 	}
@@ -133,7 +133,7 @@ public abstract class ElementObj {
 	 */
 	public Rectangle getRectangle() {
 //		可以将这个数据进行处理 
-		return new Rectangle(x,y,w,h);
+		return new Rectangle(this.x,this.y,this.w,this.h);
 		//new Rectangle(x, y, w, h) 通常用于构造一个恰好包含目标对象的矩形区域
 	}
 	/**
@@ -229,12 +229,12 @@ public abstract class ElementObj {
 		this.pickTime = pickTime;
 	}
 
-	public long getAppearTime() {
-		return appearTime;
+	public long getLastTime() {
+		return lastTime;
 	}
 
-	public void setAppearTime(long appearTime) {
-		this.appearTime = appearTime;
+	public void setLastTime(long lastTime) {
+		this.lastTime = lastTime;
 	}
 
 	public int getMoveNum() {

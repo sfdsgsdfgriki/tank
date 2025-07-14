@@ -35,7 +35,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 //	变量专门用来记录当前主角面向的方向,默认为是up
 
 
-	private boolean pkType=false;//攻击状态 true 攻击  false停止
+	//private boolean pkType=false;//攻击状态 true 攻击  false停止
 	
 	public Play1() {}
 	public Play1(int x, int y, int w, int h, ImageIcon icon) {
@@ -48,7 +48,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 		this.setX(Integer.parseInt(split[0]));
 		this.setY(Integer.parseInt(split[1]));
 		System.out.println(Play1.class.getSimpleName()+"."+split[2]);
-		ImageIcon icon2 = GameLoad.imgMap.get(Play1.class.getSimpleName()+"."+split[2]);
+		ImageIcon icon2 = GameLoad.imgMap.get(this.getClass().getSimpleName()+"."+split[2]);
 		this.setFx(split[2]);
 		this.setW(icon2.getIconWidth());
 
@@ -93,7 +93,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 				this.right=false;this.left=false;
 				this.up=false; this.down=true;  this.setFx("down");;break;
 			case 32:
-				this.pkType=true;break;//开启攻击状态
+				this.setisFire(true);break;//开启攻击状态
 			}
 		}else {
 			switch(key) {
@@ -101,7 +101,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 			case 38: this.up=false;    break;
 			case 39: this.right=false; break;
 			case 40: this.down=false;  break;
-			case 32: this.pkType=false; break;//关闭攻击状态
+			case 32: this.setisFire(false); break;//关闭攻击状态
 			}
 		//a a
 		}	
@@ -114,7 +114,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 //		return 0;
 //	}
 	@Override
-	public void move() {
+	public void move(long gameTime) {
 		if (this.left && this.getX()>0) {
 			this.setX(this.getX() - this.getMoveNum());
 		}
@@ -133,7 +133,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 //		ImageIcon icon=GameLoad.imgMap.get(fx);
 //		System.out.println(icon.getIconHeight());//得到图片的高度
 //		如果高度是小于等于0 就说明你的这个图片路径有问题
-		this.setIcon(GameLoad.imgMap.get(Play1.class.getSimpleName()+"."+this.getFx()));
+		this.setIcon(GameLoad.imgMap.get(this.getClass().getSimpleName()+"."+this.getFx()));
 
 	}
 	/**
@@ -152,15 +152,15 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 //	这个控制代码 自己写
 	@Override   //添加子弹
 	public void add(long gameTime) {//有啦时间就可以进行控制
-		if(!this.pkType) {//如果是不发射状态 就直接return
+		if(!this.getisFire()) {//如果是不发射状态 就直接return
 			return;
 		}
-		this.pkType=false;//按一次，发射一个子弹。拼手速(也可以增加变量来控制)
+		this.setisFire(false);//按一次，发射一个子弹。拼手速(也可以增加变量来控制)
 //		new PlayFile(); // 构造一个类 需要做比较多的工作  可以选择一种方式，使用小工厂
 //		将构造对象的多个步骤进行封装成为一个方法，返回值直接是这个对象
 //		传递一个固定格式   {X:3,y:5,f:up} json格式
-		ElementObj obj=GameLoad.getObj("file");
-		ElementObj element = obj.createElement(this.toString());
+//		ElementObj obj=GameLoad.getObj("file");
+		ElementObj element = new PlayFile().createElement(this.toString());
 //		System.out.println("子弹是否为空"+element);
 //		装入到集合中
 		ElementManager.getManager().addElement(element, GameElement.PLAYFILE);

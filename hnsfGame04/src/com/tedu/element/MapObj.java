@@ -38,13 +38,7 @@ public class MapObj extends ElementObj{
 		case "RIVER": icon=new ImageIcon("image/wall/river.png");this.setHp(0);this.setName(arr[0]);break;
 		case "IRON": icon=new ImageIcon("image/wall/iron.png");this.setHp(10000);this.setName(arr[0]);break;
 
-
-
-
 		}
-
-
-
 
 		int x=Integer.parseInt(arr[1]);
 		int y=Integer.parseInt(arr[2]);

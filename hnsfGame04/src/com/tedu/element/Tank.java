@@ -15,6 +15,8 @@ public class Tank extends ElementObj{ //坦克类 ，用于判断
 
     private String fx="up";
 
+    private long lastShotTime=0;
+    private boolean isFire =false; // 开火状态，true 发射子弹，false 不发射
     public String getFx() {
         return fx;
     }
@@ -22,6 +24,24 @@ public class Tank extends ElementObj{ //坦克类 ，用于判断
     public void setFx(String fx) {
         this.fx = fx;
     }
+
+
+    public long getLastShotTime() {
+        return lastShotTime;
+    }
+
+    public void setLastShotTime(long lastShotTime) {
+        this.lastShotTime = lastShotTime;
+    }
+
+    public boolean getisFire() {
+        return isFire;
+    }
+
+    public void setisFire(boolean fire) {
+        isFire = fire;
+    }
+
     @Override
     public void showElement(Graphics g) {
 //		绘画图片
