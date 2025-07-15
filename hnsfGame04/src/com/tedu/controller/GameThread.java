@@ -7,6 +7,7 @@ import com.tedu.element.*;
 import com.tedu.manager.ElementManager;
 import com.tedu.manager.GameElement;
 import com.tedu.manager.GameLoad;
+import com.tedu.show.GameMainJPanel;
 
 /**
  * @说明 游戏的主线程，用于控制游戏加载，游戏关卡，游戏运行时自动化
@@ -16,18 +17,33 @@ import com.tedu.manager.GameLoad;
  */
 public class GameThread extends Thread{
 	private ElementManager em;
+	private int mapId=1;
 	
 	public GameThread() {
 		em=ElementManager.getManager();
 	}
+
+	private GameMainJPanel gameMainJPanel ;
+
+	public GameMainJPanel getGameMainJPanel() {
+		return gameMainJPanel;
+	}
+
+	public void setGameMainJPanel(GameMainJPanel gameMainJPanel) {
+		this.gameMainJPanel = gameMainJPanel;
+	}
+
+	private boolean isGameover =false;
 	@Override
 	public void run() {//游戏的run方法  主线程
-		while(true) { //扩展,可以讲true变为一个变量用于控制结束
+
+		while(isGameover==false) { //扩展,可以讲true变为一个变量用于控制结束
 //		游戏开始前   读进度条，加载游戏资源(场景资源)
 			gameLoad();
 //		游戏进行时   游戏过程中
 			gameRun();
 //		游戏场景结束  游戏资源回收(场景资源)
+
 			gameOver();
 			try {
 				sleep(50);
@@ -42,7 +58,7 @@ public class GameThread extends Thread{
 	 */
 	private void gameLoad() {
 		GameLoad.loadImg(); //加载图片
-		GameLoad.MapLoad(4);//可以变为 变量，每一关重新加载  加载地图
+		GameLoad.MapLoad(mapId);//可以变为 变量，每一关重新加载  加载地图
 //		加载主角
 		GameLoad.loadPlay();//也可以带参数，单机还是2人
 
@@ -61,7 +77,7 @@ public class GameThread extends Thread{
 	
 	private void gameRun() {
 		long gameTime=0L;//给int类型就可以啦
-		while(true) {// 预留扩展   true可以变为变量，用于控制管关卡结束等
+		while(this.isGameover==false) {// 预留扩展   true可以变为变量，用于控制管关卡结束等
 			Map<GameElement, List<ElementObj>> all = em.getGameElements();
 			List<ElementObj> enemys = em.getElementsByKey(GameElement.ENEMY);
 			List<ElementObj> files = em.getElementsByKey(GameElement.PLAYFILE);
@@ -72,12 +88,12 @@ public class GameThread extends Thread{
 
 			/*
 			* 检测碰撞*/
-			ElementPK(enemys,files);
-			ElementPK(maps,files);
-			ElementPK(plays,files);
-			ElementPK(plays,tools);
-			ElementPK(plays,maps);
-			ElementPK(enemys,maps);
+			ElementPK(enemys,files,gameTime);
+			ElementPK(maps,files,gameTime);
+			ElementPK(plays,files,gameTime);
+			ElementPK(plays,tools,gameTime);
+			ElementPK(plays,maps,gameTime);
+			ElementPK(enemys,maps,gameTime);
 
 			gameTime++;//唯一的时间控制
 			try {
@@ -90,7 +106,7 @@ public class GameThread extends Thread{
 	}
 
 
-	public void ElementPK(List<ElementObj> listA,List<ElementObj>listB) {//任意两个物体的碰撞
+	public void ElementPK(List<ElementObj> listA,List<ElementObj>listB,long gameTime) {//任意两个物体的碰撞
 //		请大家在这里使用循环，做一对一判定，如果为真，就设置2个对象的死亡状态
 		for(int i=0;i<listA.size();i++) {
 			ElementObj enemy=listA.get(i);
@@ -139,17 +155,16 @@ public class GameThread extends Thread{
 				}
 
 
-				if(enemy.pk(file)&& file instanceof Boat) //坦克与鞋子道具碰撞
+				if(enemy.pk(file)&& file instanceof Tool) //坦克与道具碰撞
 				{
-					file.effect(enemy);
+					enemy.addTool((Tool) file);
+
+//					((Tool) file).effect(enemy,gameTime);
+
 					file.setLive(false);
 
 				}
-				if (enemy.pk(file)&&file instanceof Recover)//坦克与回血道具碰撞
-				{
-					file.effect(enemy);
-					file.setLive(false);
-				}
+//
 
 				if(enemy.pk(file) && file instanceof MapObj)//坦克与地图的碰撞
 				{
@@ -164,11 +179,6 @@ public class GameThread extends Thread{
 
 
 				}
-
-
-
-
-
 
 			}
 		}
@@ -230,28 +240,51 @@ public class GameThread extends Thread{
 				// 无法直接调用子类特有的方法。但如果子类重写了父类的方法，则会执行子类的实现（多态）
 
 
+
 				if(!obj.isLive()) {//如果死亡
 //					list.remove(i--);  //可以使用这样的方式
 //					启动一个死亡方法(方法中可以做事情例如:死亡动画 ,掉装备)
 
 					obj.die(list,i,gameTime);//需要大家自己补充
+					if (obj instanceof Play1|| obj instanceof Play2)//有玩家死了游戏就结束
+					{
+						if (obj instanceof Play1) this.gameMainJPanel.setWinPlayer(new Play2());
 
+						if (obj instanceof Play2) this.gameMainJPanel.setWinPlayer(new Play1());
+						this.isGameover=true;
 
+					}
 					continue;
 				}
 
+
+
+
 				obj.model(gameTime);//调用的模板方法 不是move
 			}
-		}	
+		}
+
 	}
 	
 
 	
 	/**游戏切换关卡*/
 	private void gameOver() {
+
+		if (this.isGameover==true)
+		{
+			this.gameMainJPanel.setisGameOver(true);
+		}
 		
 	}
-	
+
+	public int getMapId() {
+		return mapId;
+	}
+
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
+	}
 }
 
 
