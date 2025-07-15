@@ -84,7 +84,9 @@ public class StartJFrame extends JFrame
 
         // 启动游戏线程
         GameThread gameThread = new GameThread();
+        gameThread.setGameMainJPanel(gamePanel); //将面板存入主线程
         gj.setThead(gameThread);
+
 
         // 显示游戏窗口
         gj.start();

@@ -1,12 +1,13 @@
 package com.tedu.show;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
 import com.tedu.element.ElementObj;
+import com.tedu.element.Tank;
 import com.tedu.manager.ElementManager;
 import com.tedu.manager.GameElement;
 
@@ -23,7 +24,26 @@ import com.tedu.manager.GameElement;
 public class GameMainJPanel extends JPanel implements Runnable{
 //	联动管理器
 	private ElementManager em;
-	
+	private boolean isGameOver = false;
+
+	private Tank winPlayer;
+
+	public Tank getWinPlayer() {
+		return winPlayer;
+	}
+
+	public void setWinPlayer(Tank winPlayer) {
+		this.winPlayer = winPlayer;
+	}
+
+	public boolean getisGameOver() {
+		return isGameOver;
+	}
+
+	public void setisGameOver(boolean gameOver) {
+		this.isGameOver = gameOver;
+	}
+
 	public GameMainJPanel() {
 		init();
 	}
@@ -62,8 +82,18 @@ public class GameMainJPanel extends JPanel implements Runnable{
 //				obj.showElement(g);//调用每个类的自己的show方法完成自己的显示
 //			}
 //		}
+		if (this.isGameOver==true)
+		{
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("宋体", Font.BOLD, 100));
+			g.drawString("游戏结束", this.getWidth()/2 - 200, this.getHeight()/2-50);
+			g.drawString(this.winPlayer.getClass().getSimpleName()+" 获胜",this.getWidth()/2 - 250,this.getHeight()/2+100);
+		}
 		
 	}
+
+
+
 	@Override
 	public void run() {  //接口实现
 		while(true) {
