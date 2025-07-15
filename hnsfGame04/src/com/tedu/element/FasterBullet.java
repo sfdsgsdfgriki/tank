@@ -24,25 +24,26 @@ public class FasterBullet extends Tool{
     @Override
     public void effect(ElementObj obj, long gameTime) {
 
-        if(obj instanceof Tank)
-        if(this.getisWork()==false) //首次触发效果
-        {
-            this.setLastTime(gameTime);
-            this.setisWork(true);
+        if(obj instanceof Tank) {
+            if (this.getisWork() == false) //首次触发效果
+            {
+                this.setLastTime(gameTime);
+                this.setisWork(true);
 
-            ((Tank) obj).setFireSpeed(20);
+                ((Tank) obj).setFireSpeed(20);
 
-        }
+            }
 
-        if (gameTime-this.getLastTime()<=400) { // 在触发期间
-            ((Tank) obj).setFireSpeed(20);
-        }
-        else//失效了
-        {
-            ((Tank) obj).setFireSpeed(5);
-            this.setisWork(false);
-            //obj.removeTool(this);
-            this.setCanRemove(true); //失效了就加这句
+            if (gameTime - this.getLastTime() <= 400) { // 在触发期间
+                ((Tank) obj).setFireSpeed(20);
+            } else//失效了
+            {
+                ((Tank) obj).setFireSpeed(5);
+                this.setisWork(false);
+                //obj.removeTool(this);
+                this.setCanRemove(true); //失效了就加这句
+            }
+
         }
     }
 
