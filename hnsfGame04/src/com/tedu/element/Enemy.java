@@ -153,8 +153,8 @@ public class Enemy extends Tank{
 		{
 			list.remove(i); //移出去就不显示了
 			Random ran = new Random();
-//			int r =ran.nextInt(2);
-			int r=3;
+			int r =ran.nextInt(4);
+			//int r=3;
 			ElementObj obj = null;
 			switch (r)
 			{
