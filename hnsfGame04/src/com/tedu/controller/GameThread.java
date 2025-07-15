@@ -17,6 +17,7 @@ import com.tedu.show.GameMainJPanel;
  */
 public class GameThread extends Thread{
 	private ElementManager em;
+	private int mapId=1;
 	
 	public GameThread() {
 		em=ElementManager.getManager();
@@ -57,7 +58,7 @@ public class GameThread extends Thread{
 	 */
 	private void gameLoad() {
 		GameLoad.loadImg(); //加载图片
-		GameLoad.MapLoad(5);//可以变为 变量，每一关重新加载  加载地图
+		GameLoad.MapLoad(mapId);//可以变为 变量，每一关重新加载  加载地图
 //		加载主角
 		GameLoad.loadPlay();//也可以带参数，单机还是2人
 
@@ -156,7 +157,7 @@ public class GameThread extends Thread{
 
 				if(enemy.pk(file)&& file instanceof Tool) //坦克与道具碰撞
 				{
-					enemy.addTool((Tool) file); //加道具到坦克的道具列表
+					enemy.addTool((Tool) file);
 
 //					((Tool) file).effect(enemy,gameTime);
 
@@ -276,7 +277,14 @@ public class GameThread extends Thread{
 		}
 		
 	}
-	
+
+	public int getMapId() {
+		return mapId;
+	}
+
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
+	}
 }
 
 
