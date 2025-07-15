@@ -7,10 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 public class StartJFrame extends JFrame
 {
+
     private JButton startButton;
 
     public StartJFrame(){init();}
@@ -23,7 +26,8 @@ public class StartJFrame extends JFrame
         this.setLocationRelativeTo(null);
 
         // 加载背景图片
-        URL imageUrl = getClass().getResource("/image/wall/login_back_ground.png");
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL imageUrl = classLoader.getResource("login_background.png");
         ImageIcon backgroundImage = null;
         if (imageUrl != null) {
             backgroundImage = new ImageIcon(imageUrl);
