@@ -57,6 +57,7 @@ public class Play2 extends Tank{
         this.setHp(3);
         this.setAttack(1);//攻击力初始为1
         this.setMoveNum(2);
+        this.setFireSpeed(5);//子弹速度初始为5
         return this;
     }
 
@@ -193,7 +194,7 @@ public class Play2 extends Tank{
             case "down": x+=13;y+=36; break;
         }//个人认为： 玩游戏有助于 理解面向对象思想;不能专门玩，需要思考，父类应该怎么抽象，子类应该怎么实现
 //		学习技术不犯法，但是不要用技术做犯法的事.
-        return "x:"+x+",y:"+y+",f:"+this.getFx()+",attack:"+this.getAttack();
+        return "x:"+x + ",y:"+y +",f:"+this.getFx()+",attack:"+this.getAttack() +",fireSpeed:"+this.getFireSpeed() ;
     }
 
 }

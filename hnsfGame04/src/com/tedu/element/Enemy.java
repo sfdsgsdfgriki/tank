@@ -48,6 +48,7 @@ public class Enemy extends Tank{
 		this.setHp(1);
 		this.setMoveNum(2);
 		this.setAttack(1);
+		this.setFireSpeed(5);
 
 	}
 
@@ -152,12 +153,14 @@ public class Enemy extends Tank{
 		{
 			list.remove(i); //移出去就不显示了
 			Random ran = new Random();
-			int r =ran.nextInt(2);
+//			int r =ran.nextInt(2);
+			int r=2;
 			ElementObj obj = null;
 			switch (r)
 			{
 				case 0:  obj = new Boat(this.getX(),this.getY(),"boat");break;
 				case 1:  obj = new Recover(this.getX(),this.getY(),"recover");break;
+				case 2:  obj = new FasterBullet(this.getX(),this.getY(),"fasterbullet");break;
 			}
 			System.out.println(obj.getClass());
 			System.out.println(r);
@@ -190,6 +193,6 @@ public class Enemy extends Tank{
 			case "down": x+=13;y+=36; break;
 		}//个人认为： 玩游戏有助于 理解面向对象思想;不能专门玩，需要思考，父类应该怎么抽象，子类应该怎么实现
 //		学习技术不犯法，但是不要用技术做犯法的事.
-		return "x:"+x+",y:"+y+",f:"+this.getFx()+",attack:"+this.getAttack();
+		return "x:"+x + ",y:"+y +",f:"+this.getFx()+",attack:"+this.getAttack() +",fireSpeed:"+this.getFireSpeed() ;
 	}
 }

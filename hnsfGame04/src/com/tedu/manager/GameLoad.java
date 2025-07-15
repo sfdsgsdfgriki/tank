@@ -130,7 +130,7 @@ public class GameLoad {
 	public static void loadPlay() {
 		//loadObj();
 		String play1Str="500,500,up";
-		String play2Str ="50,300,left";
+		String play2Str ="50,50,left";
 //		ElementObj obj=getObj("play");
 //		ElementObj play = obj.createElement(playStr);
 
@@ -143,6 +143,7 @@ public class GameLoad {
 		em.addElement(play2, GameElement.PLAY);
 
 //		ElementObj enemy1 = new Enemy().createElement("");
+
 //
 
 

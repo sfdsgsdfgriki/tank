@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class Boat extends ElementObj{
+public class Boat extends Tool{
 
     public Boat() {
     }
@@ -23,12 +23,29 @@ public class Boat extends ElementObj{
     }
 
     @Override
-    public void effect(ElementObj obj) {//增加移速
+    public void effect(ElementObj obj,long gameTime) {//增加移速
 
 
 
-           obj.setMoveNum(4);
-           System.out.println(obj.getMoveNum());
+           if(this.getisWork()==false) //首次触发效果
+           {
+               this.setLastTime(gameTime);
+               this.setisWork(true);
+
+               obj.setMoveNum(4);
+
+           }
+
+           if (gameTime-this.getLastTime()<=500) { // 在触发期间
+               obj.setMoveNum(4);
+           }
+           else//失效了
+           {
+               obj.setMoveNum(2);
+               this.setisWork(false);
+               //obj.removeTool(this);
+               this.setCanRemove(true); //失效了就加这句
+           }
 
 
     }
@@ -39,13 +56,7 @@ public class Boat extends ElementObj{
         list.remove(i);
     }
 
-    @Override
-    public void showElement(Graphics g) {
-//		绘画图片
-        g.drawImage(this.getIcon().getImage(),
-                this.getX(), this.getY(),
-                this.getW(), this.getH(), null);
-    }
+
 
 
 }

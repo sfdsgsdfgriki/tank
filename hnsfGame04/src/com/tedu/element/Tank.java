@@ -17,6 +17,8 @@ public class Tank extends ElementObj{ //坦克类 ，用于判断
 
     private long lastShotTime=0;
     private boolean isFire =false; // 开火状态，true 发射子弹，false 不发射
+
+    private int fireSpeed;//子弹速度默认是5
     public String getFx() {
         return fx;
     }
@@ -40,6 +42,14 @@ public class Tank extends ElementObj{ //坦克类 ，用于判断
 
     public void setisFire(boolean fire) {
         isFire = fire;
+    }
+
+    public int getFireSpeed() {
+        return fireSpeed;
+    }
+
+    public void setFireSpeed(int fireSpeed) {
+        this.fireSpeed = fireSpeed;
     }
 
     @Override
