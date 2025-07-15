@@ -2,6 +2,7 @@ package com.tedu.element;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.sql.SQLOutput;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -29,16 +30,19 @@ public class PlayFile extends ElementObj{
 		String[] split = str.split(",");
 		for(String str1 : split) {//X:3
 			String[] split2 = str1.split(":");// 0下标 是 x,y,f   1下标是值
+
 			switch(split2[0]) {
 			case "x": this.setX(Integer.parseInt(split2[1]));break;
 			case "y":this.setY(Integer.parseInt(split2[1]));break;
 			case "f":this.fx=split2[1];break;
 			case "attack": this.setAttack(Integer.parseInt(split2[1])); break; //将坦克攻击力赋给子弹
+			case "fireSpeed" :this.setMoveNum(Integer.parseInt(split2[1])); break;
 			}
+			;
 		}
 		this.setW(10);
 		this.setH(10);
-		this.setMoveNum(5);
+
 		return this;
 	}
 

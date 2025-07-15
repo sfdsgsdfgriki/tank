@@ -42,7 +42,7 @@ public class GameThread extends Thread{
 	 */
 	private void gameLoad() {
 		GameLoad.loadImg(); //加载图片
-		GameLoad.MapLoad(4);//可以变为 变量，每一关重新加载  加载地图
+		GameLoad.MapLoad(5);//可以变为 变量，每一关重新加载  加载地图
 //		加载主角
 		GameLoad.loadPlay();//也可以带参数，单机还是2人
 
@@ -72,12 +72,12 @@ public class GameThread extends Thread{
 
 			/*
 			* 检测碰撞*/
-			ElementPK(enemys,files);
-			ElementPK(maps,files);
-			ElementPK(plays,files);
-			ElementPK(plays,tools);
-			ElementPK(plays,maps);
-			ElementPK(enemys,maps);
+			ElementPK(enemys,files,gameTime);
+			ElementPK(maps,files,gameTime);
+			ElementPK(plays,files,gameTime);
+			ElementPK(plays,tools,gameTime);
+			ElementPK(plays,maps,gameTime);
+			ElementPK(enemys,maps,gameTime);
 
 			gameTime++;//唯一的时间控制
 			try {
@@ -90,7 +90,7 @@ public class GameThread extends Thread{
 	}
 
 
-	public void ElementPK(List<ElementObj> listA,List<ElementObj>listB) {//任意两个物体的碰撞
+	public void ElementPK(List<ElementObj> listA,List<ElementObj>listB,long gameTime) {//任意两个物体的碰撞
 //		请大家在这里使用循环，做一对一判定，如果为真，就设置2个对象的死亡状态
 		for(int i=0;i<listA.size();i++) {
 			ElementObj enemy=listA.get(i);
@@ -139,17 +139,16 @@ public class GameThread extends Thread{
 				}
 
 
-				if(enemy.pk(file)&& file instanceof Boat) //坦克与鞋子道具碰撞
+				if(enemy.pk(file)&& file instanceof Tool) //坦克与道具碰撞
 				{
-					file.effect(enemy);
+					enemy.addTool((Tool) file);
+
+//					((Tool) file).effect(enemy,gameTime);
+
 					file.setLive(false);
 
 				}
-				if (enemy.pk(file)&&file instanceof Recover)//坦克与回血道具碰撞
-				{
-					file.effect(enemy);
-					file.setLive(false);
-				}
+//
 
 				if(enemy.pk(file) && file instanceof MapObj)//坦克与地图的碰撞
 				{
@@ -164,11 +163,6 @@ public class GameThread extends Thread{
 
 
 				}
-
-
-
-
-
 
 			}
 		}
