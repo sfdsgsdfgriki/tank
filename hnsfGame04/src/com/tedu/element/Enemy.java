@@ -154,13 +154,14 @@ public class Enemy extends Tank{
 			list.remove(i); //移出去就不显示了
 			Random ran = new Random();
 //			int r =ran.nextInt(2);
-			int r=2;
+			int r=3;
 			ElementObj obj = null;
 			switch (r)
 			{
 				case 0:  obj = new Boat(this.getX(),this.getY(),"boat");break;
 				case 1:  obj = new Recover(this.getX(),this.getY(),"recover");break;
 				case 2:  obj = new FasterBullet(this.getX(),this.getY(),"fasterbullet");break;
+				case 3:  obj = new Unbeatable(this.getX(),this.getY(),"unbeatable");break;
 			}
 			System.out.println(obj.getClass());
 			System.out.println(r);
