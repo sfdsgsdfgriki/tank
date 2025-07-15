@@ -156,7 +156,7 @@ public class GameThread extends Thread{
 
 				if(enemy.pk(file)&& file instanceof Tool) //坦克与道具碰撞
 				{
-					enemy.addTool((Tool) file);
+					enemy.addTool((Tool) file); //加道具到坦克的道具列表
 
 //					((Tool) file).effect(enemy,gameTime);
 

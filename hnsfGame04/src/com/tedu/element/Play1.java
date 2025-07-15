@@ -47,7 +47,7 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 		String[] split = str.split(",");
 		this.setX(Integer.parseInt(split[0]));
 		this.setY(Integer.parseInt(split[1]));
-		System.out.println(Play1.class.getSimpleName()+"."+split[2]);
+		//System.out.println(Play1.class.getSimpleName()+"."+split[2]);
 		ImageIcon icon2 = GameLoad.imgMap.get(this.getClass().getSimpleName()+"."+split[2]);
 		this.setFx(split[2]);
 		this.setW(icon2.getIconWidth());
@@ -58,7 +58,8 @@ public class Play1 extends Tank /* implements Comparable<Play>*/{
 		this.setAttack(1);//攻击力初始为1
 		this.setMoveNum(2);
 		this.setFireSpeed(5);//子弹速度初始为5
-		System.out.println(this.toString());
+		//System.out.println(this.toString());
+		this.addTool(new Unbeatable());
 		return this;
 	}
 	

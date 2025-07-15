@@ -58,6 +58,7 @@ public class Play2 extends Tank{
         this.setAttack(1);//攻击力初始为1
         this.setMoveNum(2);
         this.setFireSpeed(5);//子弹速度初始为5
+        this.addTool(new Unbeatable());
         return this;
     }
 

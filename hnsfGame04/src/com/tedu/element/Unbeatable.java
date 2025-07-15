@@ -31,11 +31,13 @@ public class Unbeatable extends Tool{
             this.setisWork(true);
 
             obj.setHp(10000);
+            System.out.println(gameTime+" "+this.getLastTime() );
 
         }
 
-        if (gameTime-this.getLastTime()<=500) { // 在触发期间
+        if (gameTime-this.getLastTime()<=200) { // 在触发期间
             obj.setHp(10000);
+            System.out.println(gameTime+" "+this.getLastTime() );
         }
         else//失效了
         {

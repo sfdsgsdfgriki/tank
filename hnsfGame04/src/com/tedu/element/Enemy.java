@@ -45,7 +45,7 @@ public class Enemy extends Tank{
 		this.setIcon(icon);
 		this.setW(icon.getIconWidth());
 		this.setH(icon.getIconHeight());
-		this.setHp(1);
+		this.setHp(2);//人机两滴血
 		this.setMoveNum(2);
 		this.setAttack(1);
 		this.setFireSpeed(5);
@@ -54,7 +54,7 @@ public class Enemy extends Tank{
 
 	@Override
 	public void move(long gameTime) {
-		System.out.println(gameTime+" "+this.getLastTime());
+		//System.out.println(gameTime+" "+this.getLastTime());
 		//gameTime-this.getLastTime()<=300
 
 		if (gameTime-this.getLastTime()<50) this.isMove=true;
@@ -70,7 +70,7 @@ public class Enemy extends Tank{
 
 			Random ran = new Random();
 			int r = ran.nextInt(4);
-			System.out.println("r: "+r);
+			//System.out.println("r: "+r);
 			switch (r)
 			{
 				case 0:this.setFx("left");break;
@@ -80,25 +80,25 @@ public class Enemy extends Tank{
 			}
 		}
 
-		System.out.println(this.isMove);
+		//System.out.println(this.isMove);
 
 		if(this.isMove==true) { //正在移动
 
-			System.out.println(this.getFx());
+			//System.out.println(this.getFx());
 
 			switch (this.getFx()) {//当前方向
 				case "left":
 					this.left = true;
-					System.out.println(this.getX());;break;
+					break;
 				case "right":
 					this.right = true;
-					System.out.println(this.getX());break;
+					break;
 				case "up":
 					this.up = true;
-					System.out.println(this.getY());break;
+					break;
 				case "down":
 					this.down = true;
-					System.out.println(this.getY());break;
+					break;
 			}
 
 
