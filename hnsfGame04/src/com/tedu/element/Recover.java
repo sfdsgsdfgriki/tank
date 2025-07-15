@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class Recover extends ElementObj{
+public class Recover extends Tool{
 
     public Recover() {
     }
@@ -21,8 +21,11 @@ public class Recover extends ElementObj{
     }
 
     @Override
-    public void effect(ElementObj obj) {
-        obj.setHp(33);
+    public void effect(ElementObj obj,long gameTime) {
+
+
+        obj.setHp(3);
+        this.setCanRemove(true);
     }
 
     @Override
@@ -31,12 +34,6 @@ public class Recover extends ElementObj{
         list.remove(i);
     }
 
-    @Override
-    public void showElement(Graphics g) {
-//		绘画图片
-        g.drawImage(this.getIcon().getImage(),
-                this.getX(), this.getY(),
-                this.getW(), this.getH(), null);
-    }
+
 
 }

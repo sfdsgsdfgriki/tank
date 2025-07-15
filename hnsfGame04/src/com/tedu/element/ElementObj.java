@@ -2,6 +2,7 @@ package com.tedu.element;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -39,9 +40,37 @@ public abstract class ElementObj {
 
 	private long pickTime=-1; // 道具被拾取的时间
 
-	private long lastTime=0; //出现时间
+	private long lastTime=0; //用于控制bot坦克自动运动
+
+	private List<Tool> toolsList= new ArrayList<>(); // 坦克捡到的道具列表
+
+	public List<Tool> getToolsList() {
+		return this.toolsList;
+	}
+
+	public void addTool(Tool obj)
+	{
+		this.toolsList.add(obj);
+	}
+
+	public void removeTool(Tool obj)
+	{
+		this.getToolsList().remove(obj);
+	}
+
+	public void toolsWork(long gameTime)//列表内道具生效
+	{
+		for (Tool tool : this.toolsList)
+		{
+				if(tool.getCanRemove()==false)//假移除，直接不生效
+				{
+					tool.effect(this,gameTime);
+				}
 
 
+		}
+
+	}
 
 	public ElementObj() {	//这个构造其实没有作用，只是为继承的时候不报错写的
 	}
@@ -91,21 +120,23 @@ public abstract class ElementObj {
 	 *        1.移动  2.换装  3.子弹发射
 	 */
 	public final void model(long gameTime) {
+
 //		先换装
 		updateImage();
 //		在移动
 		move(gameTime);
 //		在发射子弹
 		add(gameTime);
+		toolsWork(gameTime);
+
 	}
+
 //	 long ... aaa  不定长的 数组,可以向这个方法传输 N个 long类型的数据
 	protected void updateImage() {}
 	protected void add(long gameTime){}
 
 
-	public void effect(ElementObj obj){
-
-	} //道具效果的方法
+	 //道具效果的方法
 
 
 	//	死亡方法  给子类继承的

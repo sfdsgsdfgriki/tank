@@ -13,6 +13,8 @@ Enemy.down=image/tank/bot/bot_down.png
 Boom=image/boom/boom.png
 boat=image/tool/boat.png
 recover=image/tool/recover.png
+fasterbullet=image/tool/fasterbullet.png
+unbeatable=image/tool/unbeatable.png
 
 
 
