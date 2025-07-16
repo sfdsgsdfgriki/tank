@@ -34,7 +34,7 @@ public class MapObj extends ElementObj{
 		ImageIcon icon=null;
 		switch(arr[0]) { //设置图片信息 图片还未加载到内存中 //对应墙的种类加载对应图片gitg
 		case "GRASS": icon=new ImageIcon("image/wall/grass.png");this.setHp(1);this.setName(arr[0]);break;
-		case "BRICK": icon=new ImageIcon("image/wall/brick.png");this.setHp(1);this.setName(arr[0]);break;
+		case "BRICK": icon=new ImageIcon("image/wall/brick.png");this.setHp(2);this.setName(arr[0]);break;
 		case "RIVER": icon=new ImageIcon("image/wall/river.png");this.setHp(0);this.setName(arr[0]);break;
 		case "IRON": icon=new ImageIcon("image/wall/iron.png");this.setHp(10000);this.setName(arr[0]);break;
 
